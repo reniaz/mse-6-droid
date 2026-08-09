@@ -55,7 +55,7 @@ Driving is handled directly by the radio gear. The code takes care of the person
 
 ## Status
 
-> **Work in progress.** The hardware is taking shape and the software is being built up channel by channel.
+> **Work in progress.** The shell is built and painted — the software is now coming up channel by channel.
 
 Expect this page to grow alongside the build — photos, wiring notes, and a proper feature list are on the way.
 
@@ -63,9 +63,9 @@ Expect this page to grow alongside the build — photos, wiring notes, and a pro
 
 |     | Milestone |
 | :-: | :--- |
+| ✅ | Finished shell and paint |
 | 🔧 | Sound triggering across the full audio bank |
 | ⬜ | Lighting effects |
-| ⬜ | Finished shell and paint |
 | ⬜ | Build photos and a short demo video |
 
 <sub>✅ done &nbsp;·&nbsp; 🔧 in progress &nbsp;·&nbsp; ⬜ planned</sub>
