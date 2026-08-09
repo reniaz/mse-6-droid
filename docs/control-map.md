@@ -4,7 +4,7 @@ How the transmitter drives the droid's lights and sound. Channels 1–3 stay wit
 
 ## Channels
 
-| RC ch | Pro Micro | Type | Function |
+| RC ch | Pro Mini | Type | Function |
 | :-- | :-- | :-- | :--- |
 | 10 | D10 | 3-pos switch | Mode select — see [Modes](#modes) |
 | 9 | D8 | Button | Random sound from folders `01`–`04`, pooled across all files |
@@ -39,6 +39,10 @@ Files live on the DFPlayer's SD card in numbered folders, tracks counting up fro
 | `05` | Loops | `001` sound loop · `002` alarm |
 | `06` | Music | `001` Imperial March · `002` Cantina Band · `003` Throne Room · `004` Main Theme |
 
-## Unassigned
+## Notes
 
-D9 and D2 are free. D0/D1 are the hardware UART.
+Every input pin above sits on a pin-change interrupt, so pulse widths are timed on the edge rather than polled — button timing stays accurate no matter how many channels are active.
+
+**Free pins:** D2, D9, D11, D12, D13 and A0–A7.
+
+**D0/D1 are off limits.** They are the serial pins the board is programmed through, so the sound module talks over a software serial pair instead.

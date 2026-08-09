@@ -46,7 +46,7 @@ Driving is handled directly by the radio gear. The code takes care of the person
 
 | Part | Role |
 | :--- | :--- |
-| **Arduino Pro Micro** | Main controller |
+| **Arduino Pro Mini** | Main controller |
 | **DFPlayer Mini** | Sound playback |
 | **HOTRC F-10A** | 10-channel PWM receiver |
 | **Custom chassis & shell** | The droid itself |
