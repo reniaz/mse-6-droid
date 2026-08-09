@@ -17,7 +17,7 @@
 
 ---
 
-Everything here is self-made — the chassis, the electronics, the wiring, and the code that ties it together. This repository holds the control software and the build notes as the droid comes together.
+Everything here is self-made — the chassis, the electronics, the wiring, and the code that ties it together. This repository holds the software that gives the droid its voice and its lights, along with the build notes as it comes together.
 
 <br>
 
@@ -33,10 +33,12 @@ Getting one to actually drive, react, and make the right noises means solving a 
 
 |     |     |
 | :-- | :-- |
-| **Drives** | Proportional throttle and steering over a radio link |
-| **Talks** | Droid sounds and audio cues triggered on command |
-| **Lights** | Spare channels reserved for lighting and future effects |
+| **Drives** | Proportional throttle and steering, straight off the radio link |
+| **Talks** | A full bank of droid sounds — idle chatter, alerts, questions, panicked squealing, and music |
+| **Lights** | Lighting effects switched from the transmitter |
 | **Roams** | Fully untethered, running on its own battery |
+
+Driving is handled directly by the radio gear. The code takes care of the personality — sound and light, triggered live from spare channels on the transmitter.
 
 <br>
 
@@ -46,21 +48,20 @@ Getting one to actually drive, react, and make the right noises means solving a 
 | :--- | :--- |
 | **Arduino Pro Micro** | Main controller |
 | **DFPlayer Mini** | Sound playback |
-| **10-channel RC receiver** | Remote control link |
+| **HOTRC F-10A** | 10-channel PWM receiver |
 | **Custom chassis & shell** | The droid itself |
 
 <br>
 
 ## Status
 
-> **Work in progress.** The hardware is taking shape and the control software is being built up channel by channel.
+> **Work in progress.** The hardware is taking shape and the software is being built up channel by channel.
 
 Expect this page to grow alongside the build — photos, wiring notes, and a proper feature list are on the way.
 
 **Roadmap**
 
-- [ ] Reliable drive control and mixing
-- [ ] Sound triggering tied to control input
+- [ ] Sound triggering across the full audio bank
 - [ ] Lighting effects
 - [ ] Finished shell and paint
 - [ ] Build photos and a short demo video
