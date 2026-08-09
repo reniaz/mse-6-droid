@@ -61,10 +61,14 @@ Expect this page to grow alongside the build — photos, wiring notes, and a pro
 
 **Roadmap**
 
-- [ ] Sound triggering across the full audio bank
-- [ ] Lighting effects
-- [ ] Finished shell and paint
-- [ ] Build photos and a short demo video
+|     | Milestone |
+| :-: | :--- |
+| 🔧 | Sound triggering across the full audio bank |
+| ⬜ | Lighting effects |
+| ⬜ | Finished shell and paint |
+| ⬜ | Build photos and a short demo video |
+
+<sub>✅ done &nbsp;·&nbsp; 🔧 in progress &nbsp;·&nbsp; ⬜ planned</sub>
 
 <br>
 
