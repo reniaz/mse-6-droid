@@ -74,6 +74,6 @@ Expect this page to grow alongside the build — photos, wiring notes, and a pro
 
 <div align="center">
 
-Droid built by **[infrarot(https://github.com/infrarotlaser)]** and firmware by **[reniaz](https://github.com/reniaz)**
+Droid built by **[infrarot](https://github.com/infrarotlaser)]** and firmware by **[reniaz](https://github.com/reniaz)**
 
 </div>
