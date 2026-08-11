@@ -55,7 +55,10 @@ Every input pin above sits on a pin-change interrupt, so pulse widths are timed 
 | RX0 (D0) | Back from the sound module |
 | D10, D11 | LED banks, switched via transistors |
 | D12 | Left floating — ambient noise seeds the random sound picker |
+| D9 | Shell detect, via two spare pogo pins shorted inside the upper shell |
 
 The sound module talks back, so the board knows when a track has finished rather than having to guess. Those two pins are also the programming line: the return wire needs a series resistor, or unplugging, before the board can be reflashed.
 
-**Free pins:** D9, D13 and A0–A7.
+With the shell off, the lights are held dark rather than driven into a disconnected loom. Refitting it blinks both banks twice as an acknowledgement.
+
+**Free pins:** D13 and A0–A7.

@@ -30,6 +30,18 @@ DFRobotDFPlayerMini df;
 #define PIN_LED_B 11
 #define PIN_SEED  12    // left floating, harvested for RNG entropy
 
+/*
+  Shell detect: two spare pogo pins, shorted together inside the upper
+  shell. One lands here, the other on GND, so seated reads LOW and the
+  internal pullup holds an unplugged line HIGH. D13 would be wrong for
+  this - its onboard LED and resistor fight the pullup.
+*/
+#define PIN_SHELL  9
+#define SHELL_STABLE_MS 100   // pogo contacts chatter while the droid moves
+
+#define GREET_STEPS 4         // on, off, on, off - two blinks on connect
+#define GREET_MS    120
+
 #define LONG_PRESS_MS   350
 #define SAMPLE_MS       5     // RC frames arrive at 50Hz; 200Hz is plenty
 #define DEAD_SAMPLES    100   // SAMPLE_MS * this = link considered lost
@@ -370,12 +382,56 @@ uint32_t harvestSeed() {
   return seed;
 }
 
+bool shellOn = false;
+static bool shellRaw = false;
+static uint32_t shellSince = 0;
+
+// Single choke point: with the shell off nothing can drive the banks, so
+// no caller has to remember to check.
 void setBanks(bool a, bool b) {
+  if (!shellOn) { a = false; b = false; }
   digitalWrite(PIN_LED_A, a);
   digitalWrite(PIN_LED_B, b);
 }
 
 void setLights(bool on) { setBanks(on, on); }
+
+uint8_t greetStep = GREET_STEPS;   // >= GREET_STEPS means idle
+uint32_t greetAt = 0;
+
+bool greeting() { return greetStep < GREET_STEPS; }
+
+void startGreet(uint32_t now) {
+  greetStep = 0;
+  greetAt = now;
+  setBanks(true, true);
+}
+
+void updateGreet(uint32_t now) {
+  if (!greeting()) return;
+  if (now - greetAt < GREET_MS) return;
+
+  greetStep++;
+  greetAt = now;
+  bool lit = !greeting() ? false : !(greetStep & 1);
+  setBanks(lit, lit);
+}
+
+void updateShell(uint32_t now) {
+  bool raw = (digitalRead(PIN_SHELL) == LOW);
+
+  if (raw != shellRaw) {
+    shellRaw = raw;
+    shellSince = now;
+    return;
+  }
+  if (now - shellSince < SHELL_STABLE_MS) return;
+  if (shellOn == raw) return;
+
+  shellOn = raw;
+  if (shellOn) startGreet(now);
+  else setBanks(false, false);
+}
 
 void bootFlash() {
   for (uint8_t i = 0; i < BOOT_FLASHES; i++) {
@@ -401,6 +457,8 @@ void resetBlink() {
 }
 
 void updateBlink(uint32_t now) {
+  if (greeting()) return;   // let the connect blink finish uninterrupted
+
   uint16_t span = (blinkStep & 1) ? FRAME_OFF_MS : FRAME_ON_MS;
   if (now - blinkChangedAt < span) return;
 
@@ -561,6 +619,12 @@ void setup() {
   pinMode(PIN_SEED, INPUT);   // no pullup - the pin must be left floating
   randomSeed(harvestSeed());
 
+  // Seed the detect state from the real pin so a shell already fitted at
+  // power-up is not treated as a fresh connect.
+  pinMode(PIN_SHELL, INPUT_PULLUP);
+  shellRaw = shellOn = (digitalRead(PIN_SHELL) == LOW);
+  shellSince = millis();
+
   TCCR1A = 0;
   TCCR1B = _BV(CS11);   // /8 prescaler -> 0.5us per tick
   TCNT1 = 0;
@@ -595,6 +659,8 @@ void loop() {
   uint32_t now = millis();
 
   sampleChannels(now);
+  updateShell(now);
+  updateGreet(now);
 
   Mode wanted = readMode(now);
   if (wanted != mode) enterMode(wanted);
